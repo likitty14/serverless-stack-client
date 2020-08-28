@@ -9,11 +9,18 @@ import config from './config';
 
 Amplify.configure({
   Auth: {
-    mandatorySignIn: true,
+    mandatorySignIn: false,
     region: config.cognito.REGION,
     userPoolId: config.cognito.USER_POOL_ID,
     identityPoolId: config.cognito.IDENTITY_POOL_ID,
-    userPoolWebClientId: config.cognito.APP_CLIENT_ID
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+    oauth: {
+      domain: 'test-app-kitty-1.auth.us-east-2.amazoncognito.com',
+      scope: ['email', 'profile', 'openid'],
+      redirectSignIn: 'http://localhost:3000/signin',
+      redirectSignOut: 'http://localhost:3000/',
+      responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+    }
   },
   Storage: {
     region: config.s3.REGION,

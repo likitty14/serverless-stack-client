@@ -11,6 +11,7 @@ import { onError } from "./libs/errorLib";
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [user, setUser] = useState(null);
 
   const history = useHistory();
 
@@ -34,7 +35,7 @@ function App() {
   async function handleLogout() {
     await Auth.signOut();
     userHasAuthenticated(false);
-    history.push("/login");
+    history.push("/");
   }
 
   return (
@@ -58,11 +59,8 @@ function App() {
                   <NavItem onClick={handleLogout}>Logout</NavItem>
                 </>
               ) : <>
-                  <LinkContainer to="/signup">
+                  <LinkContainer to="/signin">
                     <NavItem>Signup</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/login">
-                    <NavItem>Login</NavItem>
                   </LinkContainer>
                 </>
             }
@@ -70,7 +68,7 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
       <AppContext.Provider
-        value={{ isAuthenticated, userHasAuthenticated }}
+        value={{ isAuthenticated, userHasAuthenticated, user, setUser }}
       >
         <Routes />
       </AppContext.Provider>
